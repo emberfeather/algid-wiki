@@ -5,6 +5,11 @@
 		
 		<cfset super.init(arguments.i18n, arguments.locale) />
 		
+		<!--- FileName --->
+		<cfset add__attribute(
+			attribute = 'fileName'
+		) />
+		
 		<!--- Page --->
 		<cfset add__attribute(
 			attribute = 'page'
@@ -34,6 +39,19 @@
 		<cfset add__bundle('plugins/wiki/i18n/inc/model', 'modPage') />
 		
 		<cfreturn this />
+	</cffunction>
+	
+	<cffunction name="setFileName" access="public" returntype="void" output="false">
+		<cfargument name="value" type="string" required="true" />
+		
+		<!--- Determine the file type --->
+		<cfswitch expression="#listLast(arguments.value, '.')#">
+			<cfcase value="md,markdown">
+				<cfset this.setType('markdown') />
+			</cfcase>
+		</cfswitch>
+		
+		<cfset super.setFileName(arguments.value) />
 	</cffunction>
 	
 	<cffunction name="setRaw" access="public" returntype="void" output="false">
